@@ -3,90 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rechnen mit Brüchen - Geheimsprache</title>
+    <title>Rechen mit Brüchen - Geheimsprache</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 50px;
-        }
-        h1 {
-            font-size: 2em;
-        }
-        h2 {
-            font-size: 1.5em;
-            margin-bottom: 30px;
-        }
-        .fraction-container {
             display: flex;
             flex-direction: column;
+            justify-content: center;
             align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            text-align: center;
         }
         .fraction {
-            display: flex;
-            align-items: center;
-            margin: 20px;
+            font-size: 50px;
+            margin-bottom: 20px;
         }
-        .fraction input {
+        .fraction div {
+            display: inline-block;
             text-align: center;
-            font-size: 1.2em;
-            margin: 5px;
-            width: 100px;
-            padding: 5px;
         }
-        .line {
-            border-top: 2px dashed black;
-            width: 100px;
+        .fraction div span {
+            display: block;
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
             margin-top: 10px;
         }
-        .text-field-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 20px;
-        }
-        .status {
-            margin-top: 10px;
-            font-weight: bold;
+        .correct {
             color: green;
+            font-weight: bold;
+            margin-top: 5px;
         }
     </style>
 </head>
 <body>
-    <h1>Rechnen mit Brüchen</h1>
-    <h2>Geheimsprache</h2>
 
-    <div class="fraction-container">
-        <!-- Fraction part -->
+    <div class="container">
+        <h1>Rechen mit Brüchen</h1>
+        <h2>Geheimsprache</h2>
+        
+        <!-- Bruch 1/2 -->
         <div class="fraction">
-            <input type="text" id="numerator" maxlength="10" oninput="checkInput('numerator', 'Zähler', 'richtig')">
-            <div class="line"></div>
-            <input type="text" id="denominator" maxlength="10" oninput="checkInput('denominator', 'Nenner', 'richtig')">
+            <div>
+                <span>1</span>
+                <hr style="width: 50px; margin-top: 5px;">
+                <input type="text" id="numerator" placeholder="Zähler">
+                <div id="numeratorCorrect" class="correct" style="display: none;">richtig</div>
+            </div>
+            <div>
+                <span>2</span>
+                <hr style="width: 50px; margin-top: 5px;">
+                <input type="text" id="denominator" placeholder="Nenner">
+                <div id="denominatorCorrect" class="correct" style="display: none;">richtig</div>
+            </div>
         </div>
-
-        <!-- Status messages -->
-        <div class="status" id="numerator-status"></div>
-        <div class="status" id="denominator-status"></div>
     </div>
 
     <script>
-        function checkInput(inputId, correctWord, statusId) {
-            const inputField = document.getElementById(inputId);
-            const statusField = document.getElementById(statusId);
-            const value = inputField.value.replace(/\s/g, '');  // Remove spaces
+        // Funktion, um das Wort richtig zu überprüfen
+        function checkInput(inputId, correctId, correctWord) {
+            const inputElement = document.getElementById(inputId);
+            const correctElement = document.getElementById(correctId);
 
-            if (value.length > 10) {
-                inputField.value = value.slice(0, 10);  // Limit to 10 characters
-            }
-
-            // Check if the input matches the correct word
-            if (value.toLowerCase() === correctWord.toLowerCase()) {
-                statusField.textContent = "richtig";
-                statusField.style.color = "green";
-            } else {
-                statusField.textContent = "";
-            }
+            inputElement.addEventListener('input', function() {
+                const userInput = inputElement.value.trim().toLowerCase().replace(/\s+/g, ''); // Entfernt Leerzeichen und macht alles klein
+                if (userInput === correctWord.toLowerCase()) {
+                    correctElement.style.display = 'block';
+                } else {
+                    correctElement.style.display = 'none';
+                }
+            });
         }
+
+        // Überprüfe die Eingaben
+        checkInput('numerator', 'numeratorCorrect', 'Zähler');
+        checkInput('denominator', 'denominatorCorrect', 'Nenner');
     </script>
+    
 </body>
 </html>
+
