@@ -13,12 +13,10 @@
             height: 100vh;
             margin: 0;
             background-color: #f5f5f5;
-            flex-direction: column;
         }
         .container {
             display: flex;
             align-items: center;
-            flex-direction: column;
         }
         .fraction {
             font-size: 50px;
@@ -55,52 +53,12 @@
             margin-top: 5px;
             display: none;
         }
-        #circle {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            background-color: blue;
-            position: relative;
-            margin-top: 20px;
-            display: none; /* Der Kreis ist anfangs unsichtbar */
-        }
-        #swordButton {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            font-size: 18px;
-            border: none;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-        #swordButton:hover {
-            background-color: #45a049;
-        }
-        #sword {
-            width: 20px;
-            height: 100px;
-            background-color: silver;
-            position: absolute;
-            top: 0;
-            left: 0;
-            cursor: pointer;
-            display: none; /* Das Schwert ist anfangs unsichtbar */
-            transform-origin: top center;
-        }
-        #swordGrip {
-            width: 40px;
-            height: 30px;
-            background-color: brown;
-            position: absolute;
-            top: 100px; /* unterhalb der Spitze */
-            left: -10px;
-        }
     </style>
 </head>
 <body>
 
-    <!-- Aufgabe 1: Bruch -->
-    <div class="container" id="fractionContainer">
+    <div class="container">
+        <!-- Bruch links -->
         <div class="fraction">
             <div>
                 <span>1</span>
@@ -108,20 +66,17 @@
                 <span>2</span>
             </div>
         </div>
+        
+        <!-- Eingabefelder rechts -->
         <div class="input-field">
-            <input type="text" id="numerator" placeholder="Zähler">
+            <!-- Zähler Eingabefeld -->
+            <input type="text" id="numerator" placeholder="" aria-label="Zähler">
             <div id="numeratorCorrect" class="correct">richtig</div>
-            <input type="text" id="denominator" placeholder="Nenner">
+
+            <!-- Nenner Eingabefeld -->
+            <input type="text" id="denominator" placeholder="" aria-label="Nenner">
             <div id="denominatorCorrect" class="correct">richtig</div>
         </div>
-    </div>
-
-    <!-- Aufgabe 2: Kreis und Schwert -->
-    <div id="circle"></div>
-    <button id="swordButton">Schwert zücken</button>
-
-    <div id="sword">
-        <div id="swordGrip"></div>
     </div>
 
     <script>
@@ -143,43 +98,7 @@
         // Überprüfe die Eingaben
         checkInput('numerator', 'numeratorCorrect', 'Zähler');
         checkInput('denominator', 'denominatorCorrect', 'Nenner');
-
-        // Wenn beide Felder richtig sind, erscheint der Button für Level 2
-        function checkLevel2() {
-            const numeratorCorrect = document.getElementById('numeratorCorrect').style.display === 'block';
-            const denominatorCorrect = document.getElementById('denominatorCorrect').style.display === 'block';
-        }
-
-        // Button für Level 2, der die Aufgabe 1 ausblendet und die Kreisfläche anzeigt
-        document.getElementById('swordButton').addEventListener('click', function() {
-            document.getElementById('circle').style.display = 'block';  // Zeige den Kreis
-            document.getElementById('sword').style.display = 'block';   // Zeige das Schwert
-        });
-
-        // Schwert bewegen
-        const sword = document.getElementById('sword');
-        const swordGrip = document.getElementById('swordGrip');
-        let isDragging = false;
-
-        sword.addEventListener('mousedown', function(e) {
-            isDragging = true;
-            const offsetX = e.clientX - sword.getBoundingClientRect().left;
-            const offsetY = e.clientY - sword.getBoundingClientRect().top;
-
-            document.addEventListener('mousemove', function(e) {
-                if (isDragging) {
-                    sword.style.left = (e.clientX - offsetX) + 'px';
-                    sword.style.top = (e.clientY - offsetY) + 'px';
-                }
-            });
-
-            document.addEventListener('mouseup', function() {
-                isDragging = false;
-            });
-        });
-
     </script>
-
+    
 </body>
 </html>
-
