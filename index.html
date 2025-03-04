@@ -8,7 +8,6 @@
         body {
             font-family: Arial, sans-serif;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
@@ -16,11 +15,12 @@
             background-color: #f5f5f5;
         }
         .container {
-            text-align: center;
+            display: flex;
+            align-items: center;
         }
         .fraction {
             font-size: 50px;
-            margin-bottom: 20px;
+            margin-right: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -31,52 +31,51 @@
             align-items: center;
         }
         .fraction div span {
-            display: inline-block;
             font-size: 50px;
             margin: 0 10px;
         }
-        .fraction div input {
-            padding: 10px;
-            font-size: 16px;
-            margin-top: 10px;
-        }
         .fraction div hr {
             width: 60px;
+        }
+        .input-field {
+            display: flex;
+            flex-direction: column;
+            margin-top: 5px;
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
             margin-top: 10px;
         }
         .correct {
             color: green;
             font-weight: bold;
             margin-top: 5px;
+            display: none;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>Rechen mit Brüchen</h1>
-        <h2>Geheimsprache</h2>
-        
-        <!-- Bruch 1/2 -->
+        <!-- Bruch links -->
         <div class="fraction">
-            <!-- Zähler (oben) -->
             <div>
                 <span>1</span>
                 <hr>
-                <input type="text" id="numerator" placeholder="Zähler">
-                <div id="numeratorCorrect" class="correct" style="display: none;">richtig</div>
-            </div>
-            <!-- Strich zwischen dem Zähler und Nenner -->
-            <div>
-                <hr style="width: 60px;">
-            </div>
-            <!-- Nenner (unten) -->
-            <div>
                 <span>2</span>
-                <hr>
-                <input type="text" id="denominator" placeholder="Nenner">
-                <div id="denominatorCorrect" class="correct" style="display: none;">richtig</div>
             </div>
+        </div>
+        
+        <!-- Eingabefelder rechts -->
+        <div class="input-field">
+            <!-- Zähler Eingabefeld -->
+            <input type="text" id="numerator" placeholder="" aria-label="Zähler">
+            <div id="numeratorCorrect" class="correct">richtig</div>
+
+            <!-- Nenner Eingabefeld -->
+            <input type="text" id="denominator" placeholder="" aria-label="Nenner">
+            <div id="denominatorCorrect" class="correct">richtig</div>
         </div>
     </div>
 
@@ -103,3 +102,4 @@
     
 </body>
 </html>
+
