@@ -13,6 +13,7 @@
             height: 100vh;
             margin: 0;
             background-color: #f5f5f5;
+            flex-direction: column;
         }
         .container {
             display: flex;
@@ -53,11 +54,71 @@
             margin-top: 5px;
             display: none;
         }
+        #level2Button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            display: none;
+        }
+        #level2Button:hover {
+            background-color: #45a049;
+        }
+        #circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background-color: blue;
+            position: relative;
+            margin-top: 20px;
+            display: none;
+        }
+        #swordButton {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+            display: none;
+        }
+        #swordButton:hover {
+            background-color: #45a049;
+        }
+        #sword {
+            width: 50px;
+            height: 200px;
+            background-color: silver;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: none;
+            cursor: pointer;
+        }
+        #halfCircle1, #halfCircle2 {
+            width: 75px;
+            height: 150px;
+            border-radius: 50%;
+            background-color: blue;
+            position: absolute;
+            top: 0;
+            display: none;
+        }
+        #halfCircle1 {
+            left: 0;
+        }
+        #halfCircle2 {
+            right: 0;
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
+    <div class="container" id="fractionContainer">
         <!-- Bruch links -->
         <div class="fraction">
             <div>
@@ -79,6 +140,16 @@
         </div>
     </div>
 
+    <button id="level2Button">Level 2</button>
+
+    <div id="circle"></div>
+    <button id="swordButton">Schwert zücken</button>
+
+    <div id="sword"></div>
+
+    <div id="halfCircle1"></div>
+    <div id="halfCircle2"></div>
+
     <script>
         // Funktion, um das Wort richtig zu überprüfen
         function checkInput(inputId, correctId, correctWord) {
@@ -98,8 +169,59 @@
         // Überprüfe die Eingaben
         checkInput('numerator', 'numeratorCorrect', 'Zähler');
         checkInput('denominator', 'denominatorCorrect', 'Nenner');
+
+        // Wenn beide Felder richtig sind, erscheint der Button für Level 2
+        function checkLevel2() {
+            const numeratorCorrect = document.getElementById('numeratorCorrect').style.display === 'block';
+            const denominatorCorrect = document.getElementById('denominatorCorrect').style.display === 'block';
+            const level2Button = document.getElementById('level2Button');
+
+            if (numeratorCorrect && denominatorCorrect) {
+                level2Button.style.display = 'block';
+            } else {
+                level2Button.style.display = 'none';
+            }
+        }
+
+        // Aufruf zur Überprüfung des Level-2-Buttons
+        document.getElementById('numerator').addEventListener('input', checkLevel2);
+        document.getElementById('denominator').addEventListener('input', checkLevel2);
+
+        // Button für Level 2, der die Aufgabe 1 ausblendet und die Kreisfläche anzeigt
+        document.getElementById('level2Button').addEventListener('click', function() {
+            document.getElementById('fractionContainer').style.display = 'none';
+            document.getElementById('level2Button').style.display = 'none';
+            document.getElementById('circle').style.display = 'block';
+            document.getElementById('swordButton').style.display = 'block';
+        });
+
+        // Schwert zücken Button
+        document.getElementById('swordButton').addEventListener('click', function() {
+            const sword = document.getElementById('sword');
+            sword.style.display = 'block';
+
+            // Schwert bewegen
+            document.addEventListener('mousemove', function(event) {
+                sword.style.left = (event.clientX - 25) + 'px'; // 25 ist die Hälfte der Breite des Schwerts
+                sword.style.top = (event.clientY - 100) + 'px'; // 100 ist die Höhe des Schwerts
+            });
+        });
+
+        // Wenn das Schwert den Kreis schneidet, teile den Kreis in zwei Hälften
+        document.getElementById('sword').addEventListener('click', function() {
+            // Überprüfen, ob der Schwertschlag den Kreis berührt hat (kannst du auch verfeinern)
+            const circle = document.getElementById('circle');
+            const sword = document.getElementById('sword');
+
+            // Bedingungen für das Teilen des Kreises
+            if (sword.getBoundingClientRect().top < circle.getBoundingClientRect().bottom &&
+                sword.getBoundingClientRect().left < circle.getBoundingClientRect().right) {
+                document.getElementById('halfCircle1').style.display = 'block';
+                document.getElementById('halfCircle2').style.display = 'block';
+                document.getElementById('circle').style.display = 'none';
+            }
+        });
     </script>
     
 </body>
 </html>
-
