@@ -21,17 +21,26 @@
         .fraction {
             font-size: 50px;
             margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         .fraction div {
-            display: inline-block;
-            text-align: center;
+            display: flex;
+            align-items: center;
         }
         .fraction div span {
-            display: block;
+            display: inline-block;
+            font-size: 50px;
+            margin: 0 10px;
         }
-        input {
+        .fraction div input {
             padding: 10px;
             font-size: 16px;
+            margin-top: 10px;
+        }
+        .fraction div hr {
+            width: 60px;
             margin-top: 10px;
         }
         .correct {
@@ -49,15 +58,17 @@
         
         <!-- Bruch 1/2 -->
         <div class="fraction">
+            <!-- Zähler (oben) -->
             <div>
                 <span>1</span>
-                <hr style="width: 50px; margin-top: 5px;">
+                <hr>
                 <input type="text" id="numerator" placeholder="Zähler">
                 <div id="numeratorCorrect" class="correct" style="display: none;">richtig</div>
             </div>
+            <!-- Nenner (unten) -->
             <div>
                 <span>2</span>
-                <hr style="width: 50px; margin-top: 5px;">
+                <hr>
                 <input type="text" id="denominator" placeholder="Nenner">
                 <div id="denominatorCorrect" class="correct" style="display: none;">richtig</div>
             </div>
