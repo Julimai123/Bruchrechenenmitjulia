@@ -54,19 +54,6 @@
             margin-top: 5px;
             display: none;
         }
-        #level2Button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            font-size: 18px;
-            border: none;
-            cursor: pointer;
-            display: none;
-        }
-        #level2Button:hover {
-            background-color: #45a049;
-        }
         #circle {
             width: 150px;
             height: 150px;
@@ -84,26 +71,27 @@
             border: none;
             cursor: pointer;
             margin-top: 20px;
-            display: none;
         }
         #swordButton:hover {
             background-color: #45a049;
         }
         #sword {
             width: 20px;
-            height: 150px;
+            height: 100px;
             background-color: silver;
             position: absolute;
             top: 0;
             left: 0;
             cursor: pointer;
+            display: none;
+            transform-origin: top center;
         }
         #swordGrip {
             width: 40px;
             height: 30px;
             background-color: brown;
             position: absolute;
-            top: 150px; /* unterhalb der Spitze */
+            top: 100px; /* unterhalb der Spitze */
             left: -10px;
         }
         #halfCircle1, #halfCircle2 {
@@ -125,8 +113,8 @@
 </head>
 <body>
 
+    <!-- Aufgabe 1: Bruch -->
     <div class="container" id="fractionContainer">
-        <!-- Bruch links -->
         <div class="fraction">
             <div>
                 <span>1</span>
@@ -134,21 +122,15 @@
                 <span>2</span>
             </div>
         </div>
-        
-        <!-- Eingabefelder rechts -->
         <div class="input-field">
-            <!-- Zähler Eingabefeld -->
             <input type="text" id="numerator" placeholder="" aria-label="Zähler">
             <div id="numeratorCorrect" class="correct">richtig</div>
-
-            <!-- Nenner Eingabefeld -->
             <input type="text" id="denominator" placeholder="" aria-label="Nenner">
             <div id="denominatorCorrect" class="correct">richtig</div>
         </div>
     </div>
 
-    <button id="level2Button">Level 2</button>
-
+    <!-- Aufgabe 2: Kreis und Schwert -->
     <div id="circle"></div>
     <button id="swordButton">Schwert zücken</button>
 
@@ -183,59 +165,56 @@
         function checkLevel2() {
             const numeratorCorrect = document.getElementById('numeratorCorrect').style.display === 'block';
             const denominatorCorrect = document.getElementById('denominatorCorrect').style.display === 'block';
-            const level2Button = document.getElementById('level2Button');
-
-            if (numeratorCorrect && denominatorCorrect) {
-                level2Button.style.display = 'block';
-            } else {
-                level2Button.style.display = 'none';
-            }
         }
 
-        // Aufruf zur Überprüfung des Level-2-Buttons
-        document.getElementById('numerator').addEventListener('input', checkLevel2);
-        document.getElementById('denominator').addEventListener('input', checkLevel2);
-
         // Button für Level 2, der die Aufgabe 1 ausblendet und die Kreisfläche anzeigt
-        document.getElementById('level2Button').addEventListener('click', function() {
-            document.getElementById('fractionContainer').style.display = 'none';
-            document.getElementById('level2Button').style.display = 'none';
+        document.getElementById('swordButton').addEventListener('click', function() {
             document.getElementById('circle').style.display = 'block';
-            document.getElementById('swordButton').style.display = 'block';
+            document.getElementById('sword').style.display = 'block'; // Zeige das Schwert an
         });
 
-        // Schwert zücken Button
-        document.getElementById('swordButton').addEventListener('click', function() {
-            const sword = document.getElementById('sword');
-            sword.style.display = 'block';
+        // Schwert bewegen
+        const sword = document.getElementById('sword');
+        const swordGrip = document.getElementById('swordGrip');
+        let isDragging = false;
 
-            // Schwert bewegen
-            document.addEventListener('mousemove', function(event) {
-                sword.style.left = (event.clientX - 10) + 'px'; // Position des Schwerts anpassen
-                sword.style.top = (event.clientY - 75) + 'px'; // Position des Schwerts anpassen
+        sword.addEventListener('mousedown', function(e) {
+            isDragging = true;
+            const offsetX = e.clientX - sword.getBoundingClientRect().left;
+            const offsetY = e.clientY - sword.getBoundingClientRect().top;
+
+            document.addEventListener('mousemove', function(e) {
+                if (isDragging) {
+                    sword.style.left = (e.clientX - offsetX) + 'px';
+                    sword.style.top = (e.clientY - offsetY) + 'px';
+                }
+            });
+
+            document.addEventListener('mouseup', function() {
+                isDragging = false;
             });
         });
 
-        // Wenn das Schwert den Kreis schneidet, teile den Kreis in zwei Hälften
-        document.getElementById('sword').addEventListener('click', function() {
-            // Überprüfen, ob der Schwertschlag den Kreis berührt hat (kannst du auch verfeinern)
+        // Schwert klicke auf den Kreis und es wird gestaucht
+        sword.addEventListener('click', function() {
             const circle = document.getElementById('circle');
-            const sword = document.getElementById('sword');
+            const swordRect = sword.getBoundingClientRect();
+            const circleRect = circle.getBoundingClientRect();
 
-            // Bedingungen für das Teilen des Kreises
-            if (sword.getBoundingClientRect().top < circle.getBoundingClientRect().bottom &&
-                sword.getBoundingClientRect().left < circle.getBoundingClientRect().right) {
+            // Überprüfen, ob das Schwert mittig über dem Kreis ist
+            if (swordRect.top < circleRect.bottom && swordRect.bottom > circleRect.top && swordRect.left < circleRect.right && swordRect.right > circleRect.left) {
+                // Schwert wird gestaucht
+                sword.style.transform = 'scaleY(0.5)'; // Schwert wird gestaucht
+
+                // Kreis wird durch Halbkreise ersetzt
                 document.getElementById('halfCircle1').style.display = 'block';
                 document.getElementById('halfCircle2').style.display = 'block';
 
-                // Bewege die Hälften etwas auseinander
-                document.getElementById('halfCircle1').style.left = '10px';
-                document.getElementById('halfCircle2').style.right = '10px';
-
-                document.getElementById('circle').style.display = 'none';
+                document.getElementById('circle').style.display = 'none'; // Verstecke den Kreis
             }
         });
     </script>
-    
+
 </body>
 </html>
+
