@@ -18,6 +18,7 @@
         .container {
             display: flex;
             align-items: center;
+            flex-direction: column;
         }
         .fraction {
             font-size: 50px;
@@ -61,7 +62,7 @@
             background-color: blue;
             position: relative;
             margin-top: 20px;
-            display: none;
+            display: none; /* Der Kreis ist anfangs unsichtbar */
         }
         #swordButton {
             padding: 10px 20px;
@@ -83,7 +84,7 @@
             top: 0;
             left: 0;
             cursor: pointer;
-            display: none;
+            display: none; /* Das Schwert ist anfangs unsichtbar */
             transform-origin: top center;
         }
         #swordGrip {
@@ -93,21 +94,6 @@
             position: absolute;
             top: 100px; /* unterhalb der Spitze */
             left: -10px;
-        }
-        #halfCircle1, #halfCircle2 {
-            width: 75px;
-            height: 75px;
-            border-radius: 50%;
-            background-color: blue;
-            position: absolute;
-            top: 0;
-            display: none;
-        }
-        #halfCircle1 {
-            left: 10px;
-        }
-        #halfCircle2 {
-            right: 10px;
         }
     </style>
 </head>
@@ -123,9 +109,9 @@
             </div>
         </div>
         <div class="input-field">
-            <input type="text" id="numerator" placeholder="" aria-label="Zähler">
+            <input type="text" id="numerator" placeholder="Zähler">
             <div id="numeratorCorrect" class="correct">richtig</div>
-            <input type="text" id="denominator" placeholder="" aria-label="Nenner">
+            <input type="text" id="denominator" placeholder="Nenner">
             <div id="denominatorCorrect" class="correct">richtig</div>
         </div>
     </div>
@@ -137,9 +123,6 @@
     <div id="sword">
         <div id="swordGrip"></div>
     </div>
-
-    <div id="halfCircle1"></div>
-    <div id="halfCircle2"></div>
 
     <script>
         // Funktion, um das Wort richtig zu überprüfen
@@ -169,8 +152,8 @@
 
         // Button für Level 2, der die Aufgabe 1 ausblendet und die Kreisfläche anzeigt
         document.getElementById('swordButton').addEventListener('click', function() {
-            document.getElementById('circle').style.display = 'block';
-            document.getElementById('sword').style.display = 'block'; // Zeige das Schwert an
+            document.getElementById('circle').style.display = 'block';  // Zeige den Kreis
+            document.getElementById('sword').style.display = 'block';   // Zeige das Schwert
         });
 
         // Schwert bewegen
@@ -195,24 +178,6 @@
             });
         });
 
-        // Schwert klicke auf den Kreis und es wird gestaucht
-        sword.addEventListener('click', function() {
-            const circle = document.getElementById('circle');
-            const swordRect = sword.getBoundingClientRect();
-            const circleRect = circle.getBoundingClientRect();
-
-            // Überprüfen, ob das Schwert mittig über dem Kreis ist
-            if (swordRect.top < circleRect.bottom && swordRect.bottom > circleRect.top && swordRect.left < circleRect.right && swordRect.right > circleRect.left) {
-                // Schwert wird gestaucht
-                sword.style.transform = 'scaleY(0.5)'; // Schwert wird gestaucht
-
-                // Kreis wird durch Halbkreise ersetzt
-                document.getElementById('halfCircle1').style.display = 'block';
-                document.getElementById('halfCircle2').style.display = 'block';
-
-                document.getElementById('circle').style.display = 'none'; // Verstecke den Kreis
-            }
-        });
     </script>
 
 </body>
