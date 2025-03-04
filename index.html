@@ -8,118 +8,97 @@
         body {
             font-family: Arial, sans-serif;
             display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
+            justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
             background-color: #f5f5f5;
         }
-        #container {
-            position: relative;
-            width: 500px;
-            height: 500px;
+        .container {
+            display: flex;
+            align-items: center;
         }
-
-        #circle {
-            fill: lightblue;
+        .fraction {
+            font-size: 50px;
+            margin-right: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-
-        #dragRect {
-            position: absolute;
-            width: 40px; 
-            height: 200px; 
-            background-color: #f39c12;
-            cursor: pointer;
-            top: 150px; /* Startposition */
-            left: 230px; /* Startposition */
+        .fraction div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-
-        .half-circle {
-            fill: lightblue;
+        .fraction div span {
+            font-size: 50px;
+            margin: 0 10px;
         }
-
-        #brueche {
-            text-align: center;
-            margin-top: 20px;
+        .fraction div hr {
+            width: 60px;
+        }
+        .input-field {
+            display: flex;
+            flex-direction: column;
+            margin-top: 5px;
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        .correct {
+            color: green;
+            font-weight: bold;
+            margin-top: 5px;
+            display: none;
         }
     </style>
 </head>
 <body>
 
-    <div id="container">
-        <!-- Kreis -->
-        <svg id="circleSVG" width="500" height="500">
-            <circle cx="250" cy="250" r="200" id="circle" />
-        </svg>
+    <div class="container">
+        <!-- Bruch links -->
+        <div class="fraction">
+            <div>
+                <span>1</span>
+                <hr>
+                <span>2</span>
+            </div>
+        </div>
+        
+        <!-- Eingabefelder rechts -->
+        <div class="input-field">
+            <!-- Zähler Eingabefeld -->
+            <input type="text" id="numerator" placeholder="" aria-label="Zähler">
+            <div id="numeratorCorrect" class="correct">richtig</div>
 
-        <!-- Rechteck zum Bewegen -->
-        <div id="dragRect"></div>
-    </div>
-    <div id="brueche">
-        <p id="result">Warte auf die Bewegung des Rechtecks</p>
+            <!-- Nenner Eingabefeld -->
+            <input type="text" id="denominator" placeholder="" aria-label="Nenner">
+            <div id="denominatorCorrect" class="correct">richtig</div>
+        </div>
     </div>
 
     <script>
-        const dragRect = document.getElementById("dragRect");
-        const circle = document.getElementById("circle");
-        const resultDisplay = document.getElementById("result");
-        let isDragging = false;
-        let initialX, initialY, offsetX, offsetY;
+        // Funktion, um das Wort richtig zu überprüfen
+        function checkInput(inputId, correctId, correctWord) {
+            const inputElement = document.getElementById(inputId);
+            const correctElement = document.getElementById(correctId);
 
-        // Drag-and-Drop-Logik für das Rechteck
-        dragRect.addEventListener("mousedown", (e) => {
-            isDragging = true;
-            initialX = e.clientX - dragRect.offsetLeft;
-            initialY = e.clientY - dragRect.offsetTop;
-            document.addEventListener("mousemove", dragMove);
-            document.addEventListener("mouseup", stopDrag);
-        });
-
-        function dragMove(e) {
-            if (isDragging) {
-                offsetX = e.clientX - initialX;
-                offsetY = e.clientY - initialY;
-                dragRect.style.left = offsetX + "px";
-                dragRect.style.top = offsetY + "px";
-
-                // Wenn das Rechteck ungefähr in der Mitte des Kreises ist
-                if (Math.abs(offsetX - 230) < 50 && Math.abs(offsetY - 150) < 50) {
-                    createHalfCircles();
+            inputElement.addEventListener('input', function() {
+                const userInput = inputElement.value.trim().toLowerCase().replace(/\s+/g, ''); // Entfernt Leerzeichen und macht alles klein
+                if (userInput === correctWord.toLowerCase()) {
+                    correctElement.style.display = 'block';
+                } else {
+                    correctElement.style.display = 'none';
                 }
-            }
+            });
         }
 
-        function stopDrag() {
-            isDragging = false;
-            document.removeEventListener("mousemove", dragMove);
-            document.removeEventListener("mouseup", stopDrag);
-        }
-
-        // Funktion, um den Kreis in zwei Halbkreise zu teilen
-        function createHalfCircles() {
-            // Entferne den alten Kreis
-            circle.remove();
-
-            // Füge zwei Halbkreise hinzu
-            const svg = document.getElementById("circleSVG");
-
-            // Oberer Halbkreis
-            const halfCircle1 = document.createElementNS("http://www.w3.org/2000/svg", "path");
-            halfCircle1.setAttribute("d", "M 250,250 m 0,-200 a 200,200 0 0,1 200,200");
-            halfCircle1.setAttribute("class", "half-circle");
-            svg.appendChild(halfCircle1);
-
-            // Unterer Halbkreis
-            const halfCircle2 = document.createElementNS("http://www.w3.org/2000/svg", "path");
-            halfCircle2.setAttribute("d", "M 250,250 m 0,-200 a 200,200 0 0,0 200,200");
-            halfCircle2.setAttribute("class", "half-circle");
-            svg.appendChild(halfCircle2);
-
-            // Update des Ergebnisses
-            resultDisplay.textContent = "Der Kreis wurde vertikal geteilt!";
-        }
+        // Überprüfe die Eingaben
+        checkInput('numerator', 'numeratorCorrect', 'Zähler');
+        checkInput('denominator', 'denominatorCorrect', 'Nenner');
     </script>
-
+    
 </body>
 </html>
