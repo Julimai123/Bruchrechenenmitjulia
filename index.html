@@ -90,23 +90,20 @@
             background-color: #45a049;
         }
         #sword {
-            width: 0;
-            height: 0;
-            border-left: 10px solid transparent;
-            border-right: 10px solid transparent;
-            border-bottom: 100px solid silver;
+            width: 20px;
+            height: 150px;
+            background-color: silver;
             position: absolute;
             top: 0;
             left: 0;
-            display: none;
             cursor: pointer;
         }
         #swordGrip {
-            width: 20px;
+            width: 40px;
             height: 30px;
             background-color: brown;
             position: absolute;
-            top: 100px; /* unterhalb der Spitze */
+            top: 150px; /* unterhalb der Spitze */
             left: -10px;
         }
         #halfCircle1, #halfCircle2 {
@@ -119,10 +116,10 @@
             display: none;
         }
         #halfCircle1 {
-            left: 0;
+            left: 10px;
         }
         #halfCircle2 {
-            right: 0;
+            right: 10px;
         }
     </style>
 </head>
@@ -155,8 +152,9 @@
     <div id="circle"></div>
     <button id="swordButton">Schwert zücken</button>
 
-    <div id="sword"></div>
-    <div id="swordGrip"></div>
+    <div id="sword">
+        <div id="swordGrip"></div>
+    </div>
 
     <div id="halfCircle1"></div>
     <div id="halfCircle2"></div>
@@ -213,8 +211,8 @@
 
             // Schwert bewegen
             document.addEventListener('mousemove', function(event) {
-                sword.style.left = (event.clientX - 25) + 'px'; // 25 ist die Hälfte der Breite des Schwerts
-                sword.style.top = (event.clientY - 100) + 'px'; // 100 ist die Höhe des Schwerts
+                sword.style.left = (event.clientX - 10) + 'px'; // Position des Schwerts anpassen
+                sword.style.top = (event.clientY - 75) + 'px'; // Position des Schwerts anpassen
             });
         });
 
@@ -241,4 +239,3 @@
     
 </body>
 </html>
-
