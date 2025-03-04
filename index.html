@@ -8,7 +8,8 @@
         body {
             font-family: Arial, sans-serif;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            justify-content: flex-start;
             align-items: center;
             height: 100vh;
             margin: 0;
@@ -17,6 +18,7 @@
         .container {
             display: flex;
             align-items: center;
+            margin-top: 30px;
         }
         .fraction {
             font-size: 50px;
@@ -53,12 +55,41 @@
             margin-top: 5px;
             display: none;
         }
+
+        /* Neue CSS-Regeln für den Kreis-Teil */
+        #circleTask {
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        #container {
+            position: relative;
+            width: 500px;
+            height: 500px;
+        }
+
+        svg {
+            display: block;
+            margin: auto;
+        }
+
+        .line {
+            stroke: black;
+            stroke-width: 4;
+            cursor: pointer;
+        }
+
+        #brueche {
+            text-align: center;
+            margin-top: 20px;
+        }
+
     </style>
 </head>
 <body>
 
+    <!-- Deine bestehende Bruchaufgabe -->
     <div class="container">
-        <!-- Bruch links -->
         <div class="fraction">
             <div>
                 <span>1</span>
@@ -67,15 +98,27 @@
             </div>
         </div>
         
-        <!-- Eingabefelder rechts -->
         <div class="input-field">
-            <!-- Zähler Eingabefeld -->
             <input type="text" id="numerator" placeholder="" aria-label="Zähler">
             <div id="numeratorCorrect" class="correct">richtig</div>
 
-            <!-- Nenner Eingabefeld -->
             <input type="text" id="denominator" placeholder="" aria-label="Nenner">
             <div id="denominatorCorrect" class="correct">richtig</div>
+        </div>
+    </div>
+
+    <!-- Interaktive Kreisaufgabe -->
+    <div id="circleTask">
+        <h2>Bruchaufteilung: Kreis teilen</h2>
+        <p>Bewege die Linie, um den Kreis zu teilen.</p>
+        <div id="container">
+            <svg id="circleSVG" width="500" height="500">
+                <circle cx="250" cy="250" r="200" fill="lightblue" />
+                <line id="cutLine" x1="250" y1="50" x2="250" y2="450" class="line" />
+            </svg>
+        </div>
+        <div id="brueche">
+            <p>Ergebnis: <span id="result">0</span> Bruch(e)</p>
         </div>
     </div>
 
@@ -86,7 +129,7 @@
             const correctElement = document.getElementById(correctId);
 
             inputElement.addEventListener('input', function() {
-                const userInput = inputElement.value.trim().toLowerCase().replace(/\s+/g, ''); // Entfernt Leerzeichen und macht alles klein
+                const userInput = inputElement.value.trim().toLowerCase().replace(/\s+/g, '');
                 if (userInput === correctWord.toLowerCase()) {
                     correctElement.style.display = 'block';
                 } else {
@@ -98,7 +141,52 @@
         // Überprüfe die Eingaben
         checkInput('numerator', 'numeratorCorrect', 'Zähler');
         checkInput('denominator', 'denominatorCorrect', 'Nenner');
+
+        // Interaktives Kreis-Teilen
+        const circleSVG = document.getElementById("circleSVG");
+        const cutLine = document.getElementById("cutLine");
+        const resultDisplay = document.getElementById("result");
+
+        let isDragging = false;
+
+        // Funktion, um die Linie zu bewegen
+        function startDrag(e) {
+            isDragging = true;
+            document.addEventListener("mousemove", dragLine);
+            document.addEventListener("mouseup", stopDrag);
+        }
+
+        function dragLine(e) {
+            if (isDragging) {
+                cutLine.setAttribute("x1", e.clientX - circleSVG.getBoundingClientRect().left);
+                cutLine.setAttribute("x2", e.clientX - circleSVG.getBoundingClientRect().left);
+                updateResult(e.clientX);
+            }
+        }
+
+        function stopDrag() {
+            isDragging = false;
+            document.removeEventListener("mousemove", dragLine);
+            document.removeEventListener("mouseup", stopDrag);
+        }
+
+        function updateResult(clientX) {
+            const circleCenterX = 250;
+            const distance = Math.abs(clientX - circleSVG.getBoundingClientRect().left - circleCenterX);
+            const totalWidth = circleSVG.getBoundingClientRect().width;
+
+            // Wenn die Linie den Kreis schneidet
+            if (distance > totalWidth / 2) {
+                resultDisplay.textContent = "2 Hälften";
+            } else {
+                resultDisplay.textContent = "Der Kreis ist ungeteilt";
+            }
+        }
+
+        // Starte die Linie zu bewegen
+        cutLine.addEventListener("mousedown", startDrag);
     </script>
-    
+
 </body>
 </html>
+
