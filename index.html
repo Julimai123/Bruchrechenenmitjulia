@@ -56,7 +56,7 @@
             display: none;
         }
 
-        /* Neue CSS-Regeln für den Kreis-Teil */
+        /* CSS für den Kreis und das Rechteck */
         #circleTask {
             margin-top: 50px;
             text-align: center;
@@ -79,11 +79,24 @@
             cursor: pointer;
         }
 
+        /* Rechteck */
+        #dragRect {
+            position: absolute;
+            width: 120px;
+            height: 40px;
+            background-color: #f39c12;
+            cursor: pointer;
+        }
+
+        /* Halbkreise */
+        .half-circle {
+            fill: lightblue;
+        }
+
         #brueche {
             text-align: center;
             margin-top: 20px;
         }
-
     </style>
 </head>
 <body>
@@ -109,84 +122,86 @@
 
     <!-- Interaktive Kreisaufgabe -->
     <div id="circleTask">
-        <h2>Bruchaufteilung: Kreis teilen</h2>
-        <p>Bewege die Linie, um den Kreis zu teilen.</p>
         <div id="container">
+            <!-- Kreis -->
             <svg id="circleSVG" width="500" height="500">
-                <circle cx="250" cy="250" r="200" fill="lightblue" />
-                <line id="cutLine" x1="250" y1="50" x2="250" y2="450" class="line" />
+                <circle cx="250" cy="250" r="200" fill="lightblue" id="circle" />
             </svg>
+
+            <!-- Rechteck zum Bewegen -->
+            <div id="dragRect" style="top: 230px; left: 400px;"></div>
         </div>
         <div id="brueche">
-            <p>Ergebnis: <span id="result">0</span> Bruch(e)</p>
+            <p>Ergebnis: <span id="result">Warte auf die Bewegung des Rechtecks</span></p>
         </div>
     </div>
 
     <script>
-        // Funktion, um das Wort richtig zu überprüfen
-        function checkInput(inputId, correctId, correctWord) {
-            const inputElement = document.getElementById(inputId);
-            const correctElement = document.getElementById(correctId);
-
-            inputElement.addEventListener('input', function() {
-                const userInput = inputElement.value.trim().toLowerCase().replace(/\s+/g, '');
-                if (userInput === correctWord.toLowerCase()) {
-                    correctElement.style.display = 'block';
-                } else {
-                    correctElement.style.display = 'none';
-                }
-            });
-        }
-
-        // Überprüfe die Eingaben
-        checkInput('numerator', 'numeratorCorrect', 'Zähler');
-        checkInput('denominator', 'denominatorCorrect', 'Nenner');
-
-        // Interaktives Kreis-Teilen
-        const circleSVG = document.getElementById("circleSVG");
-        const cutLine = document.getElementById("cutLine");
+        const dragRect = document.getElementById("dragRect");
+        const circle = document.getElementById("circle");
         const resultDisplay = document.getElementById("result");
-
         let isDragging = false;
+        let initialX, initialY, offsetX, offsetY;
 
-        // Funktion, um die Linie zu bewegen
-        function startDrag(e) {
+        // Drag-and-Drop-Logik für das Rechteck
+        dragRect.addEventListener("mousedown", (e) => {
             isDragging = true;
-            document.addEventListener("mousemove", dragLine);
+            initialX = e.clientX - dragRect.offsetLeft;
+            initialY = e.clientY - dragRect.offsetTop;
+            document.addEventListener("mousemove", dragMove);
             document.addEventListener("mouseup", stopDrag);
-        }
+        });
 
-        function dragLine(e) {
+        function dragMove(e) {
             if (isDragging) {
-                cutLine.setAttribute("x1", e.clientX - circleSVG.getBoundingClientRect().left);
-                cutLine.setAttribute("x2", e.clientX - circleSVG.getBoundingClientRect().left);
-                updateResult(e.clientX);
+                offsetX = e.clientX - initialX;
+                offsetY = e.clientY - initialY;
+                dragRect.style.left = offsetX + "px";
+                dragRect.style.top = offsetY + "px";
+
+                // Wenn das Rechteck nahe der Mitte des Kreises ist
+                if (Math.abs(offsetX - 250) < 100 && Math.abs(offsetY - 230) < 50) {
+                    createHalfCircles();
+                }
             }
         }
 
         function stopDrag() {
             isDragging = false;
-            document.removeEventListener("mousemove", dragLine);
+            document.removeEventListener("mousemove", dragMove);
             document.removeEventListener("mouseup", stopDrag);
         }
 
-        function updateResult(clientX) {
-            const circleCenterX = 250;
-            const distance = Math.abs(clientX - circleSVG.getBoundingClientRect().left - circleCenterX);
-            const totalWidth = circleSVG.getBoundingClientRect().width;
+        // Funktion, um den Kreis in zwei Halbkreise zu teilen
+        function createHalfCircles() {
+            // Entferne den alten Kreis
+            circle.remove();
 
-            // Wenn die Linie den Kreis schneidet
-            if (distance > totalWidth / 2) {
-                resultDisplay.textContent = "2 Hälften";
-            } else {
-                resultDisplay.textContent = "Der Kreis ist ungeteilt";
-            }
+            // Füge zwei Halbkreise hinzu
+            const svg = document.getElementById("circleSVG");
+
+            // Erster Halbkreis
+            const halfCircle1 = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            halfCircle1.setAttribute("d", "M 250,250 m -200,0 a 200,200 0 0,1 400,0");
+            halfCircle1.setAttribute("class", "half-circle");
+            svg.appendChild(halfCircle1);
+
+            // Zweiter Halbkreis
+            const halfCircle2 = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            halfCircle2.setAttribute("d", "M 250,250 m -200,0 a 200,200 0 0,0 400,0");
+            halfCircle2.setAttribute("class", "half-circle");
+            svg.appendChild(halfCircle2);
+
+            // Bewegung der Halbkreise
+            setTimeout(() => {
+                halfCircle1.setAttribute("transform", "translate(20, 0)"); // bewegt den ersten Halbkreis
+                halfCircle2.setAttribute("transform", "translate(-20, 0)"); // bewegt den zweiten Halbkreis
+            }, 500);
+
+            // Update des Ergebnisses
+            resultDisplay.textContent = "Der Kreis wurde geteilt!";
         }
-
-        // Starte die Linie zu bewegen
-        cutLine.addEventListener("mousedown", startDrag);
     </script>
 
 </body>
 </html>
-
