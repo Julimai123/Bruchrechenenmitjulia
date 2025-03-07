@@ -18,7 +18,7 @@
     /* Container für die Halbkreise */
     .halbkreis-container {
       display: flex;
-      gap: -50px; /* Abstand zwischen den Halbkreisen */
+      gap: 0px; /* Abstand zwischen den Halbkreisen */
     }
 
     /* Halbkreis Basis-Stil */
@@ -31,12 +31,14 @@
       border: 3px solid #FFD700; /* Hellgoldene Umrandung */
       transform: rotate(270deg);
       transform-origin: center;
+      margin-left: 20px; /* Schiebt den zweiten Halbkreis nach links */
     }
 
     /* Gedrehter Halbkreis */
     .gedreht {
       transform: rotate(90deg);
       transform-origin: center;
+      margin-left: -20px; /* Schiebt den zweiten Halbkreis nach links */
     }
   </style>
 </head>
