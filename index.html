@@ -1,104 +1,49 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rechen mit Brüchen - Geheimsprache</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f5f5f5;
-        }
-        .container {
-            display: flex;
-            align-items: center;
-        }
-        .fraction {
-            font-size: 50px;
-            margin-right: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .fraction div {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .fraction div span {
-            font-size: 50px;
-            margin: 0 10px;
-        }
-        .fraction div hr {
-            width: 60px;
-        }
-        .input-field {
-            display: flex;
-            flex-direction: column;
-            margin-top: 5px;
-        }
-        input {
-            padding: 10px;
-            font-size: 16px;
-            margin-top: 10px;
-        }
-        .correct {
-            color: green;
-            font-weight: bold;
-            margin-top: 5px;
-            display: none;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Halbkreise in Schrottgrau mit Goldrand</title>
+  <style>
+    /* Body zentrieren */
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #222; /* Dunkler Hintergrund für mehr Kontrast */
+    }
+
+    /* Container für die Halbkreise */
+    .halbkreis-container {
+      display: flex;
+      gap: 10px; /* Abstand zwischen den Halbkreisen */
+    }
+
+    /* Halbkreis Basis-Stil */
+    .halbkreis {
+      width: 100px;
+      height: 50px;
+      background-color: #606060; /* Schrottgrau */
+      border-top-left-radius: 50px;
+      border-top-right-radius: 50px;
+      border: 3px solid #FFD700; /* Hellgoldene Umrandung */
+    }
+
+    /* Gedrehter Halbkreis */
+    .gedreht {
+      transform: rotate(180deg);
+    }
+  </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- Bruch links -->
-        <div class="fraction">
-            <div>
-                <span>1</span>
-                <hr>
-                <span>2</span>
-            </div>
-        </div>
-        
-        <!-- Eingabefelder rechts -->
-        <div class="input-field">
-            <!-- Zähler Eingabefeld -->
-            <input type="text" id="numerator" placeholder="" aria-label="Zähler">
-            <div id="numeratorCorrect" class="correct">richtig</div>
+  <div class="halbkreis-container">
+    <div class="halbkreis"></div> <!-- Normal -->
+    <div class="halbkreis gedreht"></div> <!-- Gedreht -->
+  </div>
 
-            <!-- Nenner Eingabefeld -->
-            <input type="text" id="denominator" placeholder="" aria-label="Nenner">
-            <div id="denominatorCorrect" class="correct">richtig</div>
-        </div>
-    </div>
-
-    <script>
-        // Funktion, um das Wort richtig zu überprüfen
-        function checkInput(inputId, correctId, correctWord) {
-            const inputElement = document.getElementById(inputId);
-            const correctElement = document.getElementById(correctId);
-
-            inputElement.addEventListener('input', function() {
-                const userInput = inputElement.value.trim().toLowerCase().replace(/\s+/g, ''); // Entfernt Leerzeichen und macht alles klein
-                if (userInput === correctWord.toLowerCase()) {
-                    correctElement.style.display = 'block';
-                } else {
-                    correctElement.style.display = 'none';
-                }
-            });
-        }
-
-        // Überprüfe die Eingaben
-        checkInput('numerator', 'numeratorCorrect', 'Zähler');
-        checkInput('denominator', 'denominatorCorrect', 'Nenner');
-    </script>
-    
 </body>
 </html>
+
