@@ -43,13 +43,31 @@
       transform-origin: center;
       margin-left: -56px;
       }
+    
+    .container {
+      position: relative;  /* Damit die Linie relativ zum Container positioniert wird */
+      width: 200px;
+      height: 200px;
+    }
+    /* Quadrat */
+    .quadrat {
+      width: 200px;
+      height: 200px;
+      background-color: #606060; /* Schrottgrau */
+      border: 5px solid #FFD700; /* Hellgoldene Umrandung */
+      position: relative;  /* Positioniert das Quadrat relativ zur Container-Box */
+    }
 
-      .quadrat {
-        width: 200px; /* Breite des Quadrats */
-        height: 200px; /* Höhe des Quadrats */
-        background-color: #606060; /* Schrottgrau */
-        border: 5px solid #FFD700; /* Hellgoldene Umrandung */
-        }
+    /* Linie */
+    .linie {
+      position: absolute; /* Linie wird absolut zum Quadrat positioniert */
+      width: 2px;         /* Dicke der Linie */
+      height: 50px;       /* Länge der Linie */
+      background-color: #FFD700; /* Farbe der Linie (gold) */
+      top: 0;             /* Die Linie beginnt am oberen Rand des Quadrats */
+      left: 50%;          /* Die Linie wird horizontal in der Mitte des Quadrats positioniert */
+      transform: translateX(-50%); /* Zentriert die Linie horizontal */
+    }
   </style>
 </head>
 <body>
@@ -57,7 +75,11 @@
   <div class="halbkreis-container">
     <div class="halbkreis links"></div> <!-- Normal -->
     <div class="halbkreis rechts"></div> <!-- Gedreht -->
+  </div>
+  
+  <div class="container">
     <div class="quadrat"></div>
+    <div class="linie"></div> <!-- Die Linie -->
   </div>
 
 </body>
