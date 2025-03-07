@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="de">
 <head>
   <meta charset="UTF-8">
@@ -61,18 +61,21 @@
       background-color: #606060; /* Schrottgrau */
       border: 3px solid #FFD700; /* Hellgoldene Umrandung */
       box-sizing: border-box;
-      position: relative;  /* Positioniert das Quadrat relativ zur Container-Box */
+      position: absolute;  /* Positionierung innerhalb des Containers */
+      top: 50%;   /* Vertikale Zentrierung im Container */
+      left: 50%;  /* Horizontale Zentrierung im Container */
+      transform: translate(-50%, -50%); /* Zentrieren basierend auf der eigenen Größe */
     }
 
     /* Linie */
     .linie {
-      position: absolute; /* Linie wird absolut zum Quadrat positioniert */
-      width: 2px;         /* Dicke der Linie */
-      height: 50px;       /* Länge der Linie */
-      background-color: #FFD700; /* Farbe der Linie (gold) */
-      top: 0;             /* Die Linie beginnt am oberen Rand des Quadrats */
-      left: 50%;          /* Die Linie wird horizontal in der Mitte des Quadrats positioniert */
-      transform: translateX(-50%); /* Zentriert die Linie horizontal */
+      position: absolute;  /* Positioniert die Linie relativ zum Container */
+      width: 2px;  /* Dicke der Linie */
+      height: 50px;  /* Länge der Linie */
+      background-color: #FFD700; /* Goldene Linie */
+      top: -50px;   /* Linie über dem Quadrat */
+      left: 50%;    /* Linie horizontal in der Mitte des Quadrats */
+      transform: translateX(-50%);  /* Horizontale Zentrierung */
     }
   </style>
 </head>
