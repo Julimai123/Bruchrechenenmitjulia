@@ -29,14 +29,18 @@
       border-top-left-radius: 50px;
       border-top-right-radius: 50px;
       border: 3px solid #FFD700; /* Hellgoldene Umrandung */
-      transform: rotate(270deg);
       transform-origin: center;
-      margin-left: 20px; /* Schiebt den zweiten Halbkreis nach links */
     }
 
     /* Gedrehter Halbkreis */
     .gedreht {
       transform: rotate(90deg);
+      transform-origin: center;
+      margin-right: -20px; /* Schiebt den zweiten Halbkreis nach links */
+      
+          /* Gedrehter Halbkreis */
+    .gedreht2 {
+      transform: rotate(270deg);
       transform-origin: center;
       margin-left: -20px; /* Schiebt den zweiten Halbkreis nach links */
     }
@@ -45,7 +49,7 @@
 <body>
 
   <div class="halbkreis-container">
-    <div class="halbkreis"></div> <!-- Normal -->
+    <div class="halbkreis gedreht2"></div> <!-- Normal -->
     <div class="halbkreis gedreht"></div> <!-- Gedreht -->
   </div>
 
