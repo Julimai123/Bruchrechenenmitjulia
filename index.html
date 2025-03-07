@@ -13,6 +13,7 @@
       height: 100vh;
       margin: 0;
       background-color: #222; /* Dunkler Hintergrund für mehr Kontrast */
+      flex-direction: column; /* Vertikale Ausrichtung der Elemente */
     }
 
     /* Container für die Halbkreise */
@@ -36,19 +37,22 @@
       transform: rotate(-90deg);
       transform-origin: center;
       margin-right: -56px;
-      }
-          /* Gedrehter Halbkreis */
+    }
+
     .rechts {
       transform: rotate(90deg);
       transform-origin: center;
       margin-left: -56px;
-      }
-    
+    }
+
+    /* Container für das Quadrat */
     .container {
       position: relative;  /* Damit die Linie relativ zum Container positioniert wird */
       width: 200px;
       height: 200px;
+      margin-top: 50px; /* Abstand von den Halbkreisen */
     }
+
     /* Quadrat */
     .quadrat {
       width: 200px;
@@ -76,7 +80,7 @@
     <div class="halbkreis links"></div> <!-- Normal -->
     <div class="halbkreis rechts"></div> <!-- Gedreht -->
   </div>
-  
+
   <div class="container">
     <div class="quadrat"></div>
     <div class="linie"></div> <!-- Die Linie -->
@@ -84,4 +88,3 @@
 
 </body>
 </html>
-
