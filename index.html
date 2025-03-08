@@ -92,5 +92,31 @@
     <div class="quadrat"></div>
   </div>
 
+  <script>
+    const container = document.getElementById("dragContainer");
+
+    let isDragging = false;
+    let startX;
+    let startLeft;
+
+    container.addEventListener("mousedown", (e) => {
+      isDragging = true;
+      startX = e.clientX;
+      startLeft = container.offsetLeft;
+      container.style.cursor = "grabbing";
+    });
+
+    document.addEventListener("mousemove", (e) => {
+      if (!isDragging) return;
+      let moveX = e.clientX - startX;
+      container.style.left = `${startLeft + moveX}px`;
+    });
+
+    document.addEventListener("mouseup", () => {
+      isDragging = false;
+      container.style.cursor = "grab";
+    });
+  </script>
+
 </body>
 </html>
